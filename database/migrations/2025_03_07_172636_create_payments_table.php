@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->string('payment_method')->default('manual');
-            $table->string('payment_status'); // misalnya: pending, waiting confirmation, success, failed, dll.
+            $table->enum('payment_status', ['pending', 'processing', 'completed'])->default('pending'); // Menggunakan enum untuk 3 status
             $table->string('stripe_payment_id')->nullable();
             $table->string('payment_proof')->nullable(); // field untuk menyimpan path gambar bukti pembayaran
             $table->decimal('amount', 10, 2);

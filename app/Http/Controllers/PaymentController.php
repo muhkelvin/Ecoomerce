@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentController extends Controller
 {
@@ -32,18 +33,23 @@ class PaymentController extends Controller
     {
         // Validasi file input
         $request->validate([
-            'payment_proof' => 'required|image|max:2048', // maksimal 2MB
+            'payment_proof' => 'required|image|max:5120', // maksimal 5MB sesuai dengan yang tertulis di form
         ]);
 
         $payment = Payment::where('order_id', $orderId)->firstOrFail();
 
-        // Simpan file ke storage (misalnya pada disk 'public')
+        // Hapus bukti pembayaran lama jika ada
+        if ($payment->payment_proof && Storage::disk('public')->exists($payment->payment_proof)) {
+            Storage::disk('public')->delete($payment->payment_proof);
+        }
+
+        // Simpan file ke storage (disk 'public')
         $path = $request->file('payment_proof')->store('payment_proofs', 'public');
 
-        // Update record payment: simpan path gambar dan ubah status menjadi waiting confirmation
+        // Update record payment: simpan path gambar dan ubah status menjadi processing (menunggu konfirmasi)
         $payment->update([
             'payment_proof'  => $path,
-            'payment_status' => 'waiting confirmation'
+            'payment_status' => 'processing' // Menggunakan 'processing' sebagai pengganti 'waiting confirmation'
         ]);
 
         return redirect()->route('orders.show', $orderId)

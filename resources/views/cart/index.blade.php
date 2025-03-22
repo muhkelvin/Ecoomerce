@@ -15,10 +15,17 @@
             <div class="space-y-4">
                 @foreach($cartItems as $item)
                     <div class="flex flex-col md:flex-row items-center bg-white rounded-lg shadow p-4">
-                        <!-- Placeholder Image -->
-                        <div class="w-full md:w-1/4 h-40 bg-gray-100 flex items-center justify-center rounded-lg">
-                            <span class="text-gray-400">Image</span>
-                        </div>
+                        <!-- Product Image -->
+                        @if($item->product->image)
+                            <div class="w-full md:w-1/4 h-40 bg-gray-100 rounded-lg overflow-hidden">
+                                <img src="{{ asset('storage/'.$item->product->image) }}" alt="{{ $item->product->name }}" class="w-full h-full object-cover">
+                            </div>
+                        @else
+                            <!-- Placeholder Image -->
+                            <div class="w-full md:w-1/4 h-40 bg-gray-100 flex items-center justify-center rounded-lg">
+                                <span class="text-gray-400">Image</span>
+                            </div>
+                        @endif
 
                         <!-- Product Info -->
                         <div class="w-full md:w-2/4 mt-4 md:mt-0 md:pl-6">
@@ -45,6 +52,7 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
             </div>
 
             <!-- Perbaikan: Deklarasi $total sebelum digunakan -->

@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'price', 'inventory'];
+    protected $fillable = ['name', 'description', 'price', 'inventory','image',];
 
     // Satu produk dapat muncul di banyak cart item dan order item
     public function cartItems()

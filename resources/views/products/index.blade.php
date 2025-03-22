@@ -1,4 +1,3 @@
-{{-- products/index.blade.php --}}
 @extends('layouts.app')
 
 @section('title', 'Products')
@@ -20,10 +19,11 @@
         <!-- Product Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             @forelse ($products as $product)
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 over flow-hidden group">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
                     <div class="group relative h-72 flex items-center justify-center rounded-xl overflow-hidden">
-                        <!-- Gambar dari Unsplash -->
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://source.unsplash.com/random/2778x1284?Beach');">
+                        <!-- Gambar Produk -->
+                        <div class="absolute inset-0 bg-cover bg-center"
+                             style="background-image: url('{{ $product->image ? asset('storage/'.$product->image) : 'https://source.unsplash.com/random/800x800?product' }}');">
                             <!-- Overlay untuk efek gelap -->
                             <div class="absolute inset-0 bg-black/20"></div>
                         </div>
@@ -33,7 +33,6 @@
                             Quick View
                         </button>
                     </div>
-
 
                     <!-- Product Info -->
                     <div class="p-6">

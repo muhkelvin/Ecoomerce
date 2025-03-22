@@ -9,13 +9,26 @@
             <div class="grid md:grid-cols-2 gap-12 p-12">
                 <!-- Image Gallery -->
                 <div class="space-y-6">
-                    <div class="h-96 bg-soft-beige/30 rounded-xl flex items-center justify-center">
-                        <div class="w-3/4 h-3/4 bg-soft-beige rounded-xl animate-pulse"></div>
+                    <div class="h-96 bg-soft-beige/30 rounded-xl flex items-center justify-center overflow-hidden">
+                        @if($product->image)
+                            <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                        @else
+                            <div class="w-3/4 h-3/4 bg-soft-beige rounded-xl animate-pulse"></div>
+                        @endif
                     </div>
                     <div class="grid grid-cols-4 gap-4">
-                        @for($i = 0; $i < 3; $i++)
-                            <div class="h-24 bg-soft-beige/20 rounded-lg"></div>
-                        @endfor
+                        @if($product->image)
+                            <div class="h-24 rounded-lg overflow-hidden">
+                                <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
+                            </div>
+                            @for($i = 0; $i < 2; $i++)
+                                <div class="h-24 bg-soft-beige/20 rounded-lg"></div>
+                            @endfor
+                        @else
+                            @for($i = 0; $i < 3; $i++)
+                                <div class="h-24 bg-soft-beige/20 rounded-lg"></div>
+                            @endfor
+                        @endif
                     </div>
                 </div>
 
@@ -51,7 +64,7 @@
                             <div><span class="font-medium">Kategori:</span> Fashion</div>
                             <div><span class="font-medium">Material:</span> Katun Premium</div>
                             <div><span class="font-medium">Berat:</span> 450 gram</div>
-                            <div><span class="font-medium">SKU:</span> {{ $product->sku }}</div>
+                            <div><span class="font-medium">SKU:</span> {{ $product->sku ?? 'N/A' }}</div>
                         </div>
                     </div>
                 </div>

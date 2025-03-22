@@ -42,6 +42,16 @@ class ProductResource extends Resource
                         ->label('Stok')
                         ->numeric()
                         ->required(),
+                    // Upload gambar produk
+                    Forms\Components\FileUpload::make('image')
+                        ->label('Gambar Produk')
+                        ->image()
+                        ->directory('products')
+                        ->visibility('public')
+                        ->imageResizeMode('cover')
+                        ->imageCropAspectRatio('1:1')
+                        ->imageResizeTargetWidth('500')
+                        ->imageResizeTargetHeight('500')
                 ]),
             ]);
     }
@@ -53,19 +63,27 @@ class ProductResource extends Resource
                 // Kolom ID produk
                 Tables\Columns\TextColumn::make('id')
                     ->sortable(),
+                // Kolom gambar produk
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Gambar')
+                    ->circular(),
                 // Kolom nama produk
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nama Produk')
                     ->sortable()
                     ->searchable(),
                 // Kolom harga dengan format uang
                 Tables\Columns\TextColumn::make('price')
+                    ->label('Harga')
                     ->money('IDR', true)
                     ->sortable(),
                 // Kolom stok produk
                 Tables\Columns\TextColumn::make('inventory')
+                    ->label('Stok')
                     ->sortable(),
                 // Kolom tanggal pembuatan
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Tanggal Dibuat')
                     ->dateTime('d M Y'),
             ])
             ->filters([
